@@ -1,0 +1,21 @@
+name: Test Yq Action
+on: 
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Get image value
+        uses: mikefarah/yq@master
+        with:
+          cmd: yq '.components[0].image' servicefoundry.yaml
+      - name: Output new image value test
+        uses: mikefarah/yq@master
+        with:
+          cmd: yq '.components[0].image = {"type":"image", "image_uri":"foobar/barbaz:latest"}' servicefoundry.yaml
